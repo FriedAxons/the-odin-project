@@ -162,8 +162,19 @@ document.addEventListener("keydown", (e) => {
 
   console.log(`Key pressed: ${key}`); // Debugging key press
 
+  if (key === "c" || key === "C") {
+    // Clear the display and re-enable buttons
+    firstNum = null;
+    secondNum = null;
+    operator = null;
+    display.value = ""; // Clear the display
+    waitingForSecondNumber = false;
+
+    // Re-enable all buttons
+    enableButtons();
+  }
   // If the display has "Error", disable further key inputs, but allow "C" to reset everything
-  if (display.value === "Error") {
+  else if (display.value === "Error") {
     if (key === "c" || key === "C") {
       // Clear the display and re-enable buttons
       firstNum = null;
