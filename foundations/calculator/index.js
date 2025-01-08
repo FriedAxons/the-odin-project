@@ -147,7 +147,7 @@ buttons.forEach((button) => {
         display.value += "."; // Add a decimal point if not already present
       }
     } else if (buttonText === "➔") {
-      // Backspace button
+      // Handle backspace button
       display.value = display.value.slice(0, -1); // Remove the last character
       if (display.value === "") {
         display.value = "";
@@ -155,3 +155,142 @@ buttons.forEach((button) => {
     }
   });
 });
+
+// Keyboard support
+document.addEventListener("keydown", (e) => {
+  const key = e.key;
+
+  console.log(`Key pressed: ${key}`); // Debugging key press
+
+  // If the display has "Error", disable further key inputs, but allow "C" to reset everything
+  if (display.value === "Error") {
+    if (key === "c" || key === "C") {
+      // Clear the display and re-enable buttons
+      firstNum = null;
+      secondNum = null;
+      operator = null;
+      display.value = ""; // Clear the display
+      waitingForSecondNumber = false;
+
+      // Re-enable all buttons
+      enableButtons();
+    }
+    return; // Prevent further input if "Error" is shown unless it's the "C" key
+  }
+
+  // Handle number keys
+  if (!isNaN(key)) {
+    // If waiting for the second number, reset the display
+    if (waitingForSecondNumber) {
+      display.value = key;
+      waitingForSecondNumber = false;
+    } else {
+      display.value += key; // Append number to the display
+    }
+  }
+  // Handle operator keys
+  else if (key === "+" || key === "-" || key === "*" || key === "/") {
+    if (firstNum === null) {
+      // If first number hasn't been entered yet, save it
+      firstNum = parseFloat(display.value);
+      operator = key;
+      waitingForSecondNumber = true;
+    } else if (waitingForSecondNumber) {
+      // If we're waiting for the second number, update the operator
+      operator = key;
+    } else {
+      // If both numbers have been entered, calculate and update display
+      secondNum = parseFloat(display.value);
+      firstNum = operate(operator, firstNum, secondNum);
+
+      // Handle error case
+      if (firstNum === "Error") {
+        display.value = "Error";
+        firstNum = null;
+        operator = null;
+        secondNum = null;
+        waitingForSecondNumber = false;
+
+        // Disable all number and operator buttons
+        disableButtons();
+
+        return; // Stop further code execution
+      }
+
+      // Round and update display
+      firstNum = parseFloat(firstNum.toFixed(2));
+      display.value = firstNum;
+      operator = key;
+      secondNum = null;
+      waitingForSecondNumber = true;
+    }
+  }
+  // Handle equals key (Enter key)
+  else if (key === "Enter" || key === "=") {
+    if (firstNum !== null && operator !== null && !waitingForSecondNumber) {
+      secondNum = parseFloat(display.value);
+      firstNum = operate(operator, firstNum, secondNum);
+
+      // Handle error case
+      if (firstNum === "Error") {
+        display.value = "Error";
+        firstNum = null;
+        operator = null;
+        secondNum = null;
+        waitingForSecondNumber = false;
+
+        // Disable all number and operator buttons
+        disableButtons();
+
+        return; // Stop further code execution
+      }
+
+      firstNum = parseFloat(firstNum.toFixed(2));
+      display.value = firstNum;
+      operator = null;
+      secondNum = null;
+      waitingForSecondNumber = true;
+    } else if (firstNum !== null && operator !== null && secondNum === null) {
+      display.value = firstNum; // If no second number, just show the first number
+    }
+  }
+  // Handle backspace key
+  else if (key === "Backspace") {
+    display.value = display.value.slice(0, -1);
+    if (display.value === "") {
+      display.value = "";
+    }
+  }
+  // Handle decimal point
+  else if (key === ".") {
+    if (!display.value.includes(".")) {
+      display.value += "."; // Add decimal if not present
+    }
+  }
+});
+
+// Function to disable all number and operator buttons
+function disableButtons() {
+  const buttons = document.querySelectorAll(".button");
+  buttons.forEach((button) => {
+    if (
+      !isNaN(button.textContent) ||
+      button.textContent === "+" ||
+      button.textContent === "-" ||
+      button.textContent === "*" ||
+      button.textContent === "/" ||
+      button.textContent === "." ||
+      button.textContent === "="
+    ) {
+      button.disabled = true;
+    }
+  });
+}
+
+// Function to enable all number and operator buttons
+function enableButtons() {
+  const buttons = document.querySelectorAll(".button");
+  buttons.forEach((button) => {
+    button.disabled = false;
+  });
+}
