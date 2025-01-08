@@ -83,11 +83,19 @@ body {
 /* Special Buttons */
 .clear {
     background-color: #e74c3c; /* Red for clear button */
-    grid-column: span 3; /* Clear button spans 3 columns */
+    grid-column: span 2; /* Clear button spans 3 columns */
 }
 
 .clear:hover {
     background-color: #c0392b; /* Darker red on hover */
+}
+
+.backspace {
+  background-color: #9b59b6;
+}
+
+.backspace:hover {
+  background-color: #8e44ad;
 }
 
 .equals {

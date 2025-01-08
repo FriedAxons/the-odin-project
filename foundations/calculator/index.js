@@ -146,6 +146,12 @@ buttons.forEach((button) => {
       if (!display.value.includes(".")) {
         display.value += "."; // Add a decimal point if not already present
       }
+    } else if (buttonText === "➔") {
+      // Backspace button
+      display.value = display.value.slice(0, -1); // Remove the last character
+      if (display.value === "") {
+        display.value = "";
+      }
     }
   });
 });
