@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="calculator">
+        <!-- Display Area -->
+        <div class="display">
+            <input type="text" id="display" disabled placeholder="0">
+        </div>
+        
+        <!-- Buttons -->
+        <div class="buttons">
+            <!-- First Row: C button, Backspace and / operator -->
+            <button class="button clear" id="clear">C</button>
+            <button class="button backspace" id="backspace">➔</button>
+            <button class="button operator" id="divide">/</button>
+
+            <!-- Second Row: Numbers and Multiply operator -->
+            <button class="button" id="7">7</button>
+            <button class="button" id="8">8</button>
+            <button class="button" id="9">9</button>
+            <button class="button operator" id="multiply">*</button>
+
+            <!-- Third Row: Numbers and Subtract operator -->
+            <button class="button" id="4">4</button>
+            <button class="button" id="5">5</button>
+            <button class="button" id="6">6</button>
+            <button class="button operator" id="subtract">-</button>
+
+            <!-- Fourth Row: Numbers and Add operator -->
+            <button class="button" id="1">1</button>
+            <button class="button" id="2">2</button>
+            <button class="button" id="3">3</button>
+            <button class="button operator" id="add">+</button>
+
+            <!-- Fifth Row: 0, Decimal and Equals -->
+            <button class="button zero" id="0">0</button>
+            <button class="button decimal" id="decimal">.</button>
+            <button class="button equals" id="equals">=</button>
+        </div>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+</html>
+
