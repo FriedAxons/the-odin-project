@@ -122,7 +122,7 @@ buttons.forEach((button) => {
         display.value = firstNum; // Show the result
         operator = null; // Clear operator
         secondNum = null; // Clear second number
-        waitingForSecondNumber = false; // Reset waiting state
+        waitingForSecondNumber = true; // Allow new operations
       } else if (firstNum !== null && operator !== null && secondNum === null) {
         // If second number is still null, just show the first number
         display.value = firstNum;
